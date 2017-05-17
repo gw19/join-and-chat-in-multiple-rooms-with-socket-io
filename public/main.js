@@ -11,7 +11,7 @@ $(function() {
     '#EE4035', '#F3A530', '#56B949', '#30499B',
     '#F3A530', '#56B949', '#844D9E', '#4e1c81'
   ];
-
+  
   // Initialize variables
   var $window = $(window);
   var $usernameInput = $('.usernameInput'); // Input for username
