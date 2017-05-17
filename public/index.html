@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8'>
+  <title>Socket.IO Chat Example</title>
+  <link href='jquery-ui.min.css' rel='stylesheet'>
+  <link href='style.css' rel='stylesheet' >
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
+  <script src='jquery-ui.min.js'></script>
+  <script src='/socket.io/socket.io.js'></script>
+  <script src='/main.js'></script>
+</head>
+
+<body>
+  <ul class='pages' id='all-page'>
+
+    <li class='chat page' id='chat-page'>
+      <div class='chatArea'>
+        <ul class='messages'></ul>
+      </div>
+      <input class='inputMessage' placeholder='請在此輸入訊息'/>
+    </li>
+
+    <li class='login page' id='login-page'>
+      <div class='form'>
+        <h1 class='title'>聊天實驗室</h1>
+        <h3 class='subtitle'>請輸入您的暱稱</h3>
+        <label>
+          <input class='usernameInput' type='text' minlength='1' maxlength='14'
+                 title='暱稱需為1~14個字元所組成' autofocus/>
+        </label>
+      </div>
+    </li>
+
+    <li class='room page' id='room-page'>
+      <b class='roomTitle'>房間列表</b>
+      <ul class='roomList'></ul>
+    </li>
+
+  </ul>
+
+</body>
+</html>

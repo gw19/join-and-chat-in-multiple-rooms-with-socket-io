@@ -1,0 +1,195 @@
+/* Fix user-agent */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-weight: 200;
+  -webkit-font-smoothing: antialiased;
+}
+
+html, input {
+  font-family:
+    '微軟正黑體',
+    'HelveticaNeue-Light',
+    'Helvetica Neue Light',
+    'Helvetica Neue',
+    Helvetica,
+    Arial,
+    'Lucida Grande',
+    sans-serif;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+  word-wrap: break-word;
+}
+
+ul.roomList {
+  list-style: circle;
+}
+
+/* Pages */
+
+.pages {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.page {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+/* Login Page */
+
+.login.page {
+  background-color: #fffad3;
+  width: 100%;
+}
+
+.login.page .form {
+  height: 100px;
+  margin-top: -100px;
+  position: absolute;
+
+  text-align: center;
+  top: 25%;
+  width: 100%;
+}
+
+.login.page .form .usernameInput {
+  font-weight: bold;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #367ABD;
+  outline: none;
+  padding-bottom: 10px;
+  text-align: center;
+  width: 30%;
+}
+
+.login.page .title {
+  font-size: 500%;
+  color: #EE4035;
+}
+
+.login.page .subtitle {
+  font-size: 200%;
+}
+
+.login.page .subtitle {
+  color: #367ABD;
+  font-weight: bold;
+}
+
+.login.page .usernameInput {
+  color: black;
+  font-size: 200%;
+  font-weight: bold;
+  letter-spacing: 3px;
+}
+
+/* Chat page */
+
+.chat.page {
+  background-color: #fffad3;
+  display: none;
+}
+
+/* Font */
+
+.messages {
+  font-size: 120%;
+}
+
+.inputMessage {
+  font-size: 100%;
+}
+
+.log {
+  color: gray;
+  font-size: 100%;
+  margin: 5px;
+  text-align: center;
+}
+
+/* Messages */
+
+.chat.page {
+  width: 80%;
+}
+
+.chatArea {
+  height: 100%;
+  padding-bottom: 60px;
+}
+
+.messages {
+  height: 100%;
+  margin: 0;
+  overflow-y: scroll;
+  padding: 10px 20px 10px 20px;
+}
+
+.message.typing .messageBody {
+  color: gray;
+}
+
+.username {
+  font-weight: 700;
+  overflow: hidden;
+  padding-right: 10px;
+  text-align: right;
+}
+
+/* Input */
+
+.inputMessage {
+  background-color: #fffad3;
+  border: 10px solid #000;
+  bottom: 0;
+  height: 60px;
+  left: 0;
+  outline: none;
+  padding-left: 10px;
+  position: absolute;
+  right: 0;
+  width: 100%;
+}
+
+/* Rooms */
+
+.room.page {
+  background-color: beige;
+  display: none;
+  height: 100%;
+  margin-left: 80%;
+  text-align: center;
+  width: 20%;
+}
+
+.room.page .roomTitle {
+  color: darkgreen;
+  font-size: 150%;
+  font-weight: bold;
+}
+
+.room.page .roomList {
+  height: 90%;
+  margin: 0;
+  overflow-y: scroll;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
