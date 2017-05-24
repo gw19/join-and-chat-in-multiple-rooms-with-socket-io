@@ -127,7 +127,7 @@ ul.roomList {
 /* Messages */
 
 .chat.page {
-  width: 100%;
+  width: 80%;
 }
 
 .chatArea {
@@ -165,5 +165,31 @@ ul.roomList {
   padding-left: 10px;
   position: absolute;
   right: 0;
+  width: 100%;
+}
+
+/* Rooms */
+
+.room.page {
+  background-color: beige;
+  display: none;
+  height: 100%;
+  margin-left: 80%;
+  text-align: center;
+  width: 20%;
+}
+
+.room.page .roomTitle {
+  color: darkgreen;
+  font-size: 150%;
+  font-weight: bold;
+}
+
+.room.page .roomList {
+  height: 90%;
+  margin: 0;
+  overflow-y: scroll;
+  position: absolute;
+  text-align: center;
   width: 100%;
 }

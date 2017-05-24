@@ -21,6 +21,7 @@ $(function() {
   var $loginPage = $('.login.page'); // The login page
   var $chatPage = $('.chat.page'); // The chat room page
   var $roomPage = $('.room.page'); // The room list page
+  var $roomList = $('.room-list');
 
   // Prompt for setting a username
   var username;
@@ -66,14 +67,33 @@ $(function() {
     // Prevent markup from being injected into the message
     message = cleanInput(message);
     // if there is a non-empty message and a socket connection
-    if (message && connected) {
+    if (connected) {
       $inputMessage.val('');
-      addChatMessage({
-        username: username,
-        message: message
-      });
-      // tell server to execute 'new message' and send along one parameter
-      socket.emit('new message', message);
+      if (message.charAt(0) !== '/') {
+        addChatMessage({
+          username: username,
+          message: message
+        });
+        // tell server to execute 'new message' and send along one parameter
+        socket.emit('new message', message);
+      } else {
+        var words = message.split(' ');
+        var cmd = words[0]
+          .substring(1, words[0].length)
+          .toLowerCase();
+
+        switch (cmd) {
+          case 'join':
+            words.shift();
+            var room = words.join(' ');
+            socket.emit('join room', room);
+            break;
+
+          default:
+            message = '您輸入了無效的指令';
+            break;
+        }
+      }
     }
   }
 
@@ -266,11 +286,12 @@ $(function() {
   socket.on('login', function (data) {
     connected = true;
     // Display the welcome message
-    var message = "● 歡迎來到聊天實驗室 ●";
+    var message = '● 歡迎來到聊天實驗室 ●';
     log(message, {
       prepend: true
     });
     addParticipantsMessage(data);
+    socket.emit('join room', '大廳');
   });
 
   // Whenever the server emits 'new message', update the chat body
@@ -321,5 +342,23 @@ $(function() {
   socket.on('reconnect_error', function () {
     log('重新連線失敗...');
   });
+
+  socket.on('room list', function (rooms) {
+    $roomList.empty();
+
+    $.each(rooms, function (key, value) {
+      var $roomDiv = $('<div class="room"></div>')
+        .html('<b>' + value + '</b>');
+      $roomList.append($roomDiv);
+    });
+    $('.room').click( function () {
+      socket.emit('join room');
+      $inputMessage.focus();
+    });
+  });
+
+  setInterval(function () {
+    socket.emit('room list');
+  }, 1000);
 
 });

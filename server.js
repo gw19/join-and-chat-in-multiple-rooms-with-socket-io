@@ -15,6 +15,7 @@ app.use(express.static(__dirname + '/public'));
 // Chat room
 
 var numUsers = 0;
+var currentRoom = {};
 
 io.on('connection', function (socket) {
   var addedUser = false;
@@ -39,11 +40,12 @@ io.on('connection', function (socket) {
     socket.emit('login', {
       numUsers: numUsers
     });
+
     // echo globally (all clients) that a person has connected
-    socket.broadcast.emit('user joined', {
-      username: socket.username,
-      numUsers: numUsers
-    });
+    // socket.broadcast.to('大廳').emit('user joined', {
+    //   username: socket.username,
+    //   numUsers: numUsers
+    // });
   });
 
   // when the client emits 'typing', we broadcast it to others
@@ -60,7 +62,7 @@ io.on('connection', function (socket) {
     });
   });
 
-  // when the user disconnects.. perform this
+  // when the user disconnects, perform this
   socket.on('disconnect', function () {
     if (addedUser) {
       --numUsers;
@@ -72,4 +74,19 @@ io.on('connection', function (socket) {
       });
     }
   });
+
+  socket.on('room list', function () {
+    socket.emit('room list', currentRoom)
+  });
+
+  socket.on('join room', function (room) {
+    socket.join(room);
+    currentRoom[socket.id] = room;
+    socket.broadcast.to(room).emit('user joined', {
+      username: socket.username,
+      numUsers: numUsers
+    });
+  });
+
+  socket.on('leave room');
 });
