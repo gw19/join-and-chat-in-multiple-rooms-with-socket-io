@@ -280,7 +280,7 @@ $(function() {
 
   // Whenever the server emits 'user joined', log it in the chat body
   socket.on('user joined', function (data) {
-    log('已經加入這間實驗室', {
+    log('已經加入這間房間', {
       userJoinLeft: true,
       username: data.username
     });
@@ -289,7 +289,7 @@ $(function() {
 
   // Whenever the server emits 'user left', log it in the chat body
   socket.on('user left', function (data) {
-    log('已經離開這間實驗室', {
+    log('已經離開這間房間', {
       userJoinLeft: true,
       username: data.username
     });
