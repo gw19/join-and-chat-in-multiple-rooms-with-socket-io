@@ -179,17 +179,28 @@ ul.roomList {
   width: 20%;
 }
 
-.room.page .roomTitle {
+.room.page .room-title {
   color: darkgreen;
   font-size: 150%;
   font-weight: bold;
 }
 
-.room.page .roomList {
+.room.page .room-list {
   height: 90%;
   margin: 0;
   overflow-y: scroll;
   position: absolute;
-  text-align: center;
+  text-align: left;
   width: 100%;
+}
+
+div.room {
+  font-size: 150%;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+div.room:hover {
+  color: firebrick;
+  cursor: pointer;
 }

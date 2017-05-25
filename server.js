@@ -15,15 +15,18 @@ app.use(express.static(__dirname + '/public'));
 // Chat room
 
 var numUsers = 0;
-var currentRoom = {};
+var curUserList = {};
+var curUserNum = {};
+var curRoomList = [];
 
 io.on('connection', function (socket) {
   var addedUser = false;
+  var curRoomName = '大廳';
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
     // we tell the client to execute 'new message'
-    socket.broadcast.emit('new message', {
+    socket.broadcast.to(curRoomName).emit('new message', {
       username: socket.username,
       message: data
     });
@@ -37,20 +40,29 @@ io.on('connection', function (socket) {
     socket.username = username;
     ++numUsers;
     addedUser = true;
+
+    // Default to join 'Lobby'.
+    socket.join(curRoomName);
+
+    // If there is no the same curRoomName in room list, add it to room list.
+    if (curRoomList.indexOf(curRoomName) === -1) {
+      curRoomList.push(curRoomName);
+    }
+
     socket.emit('login', {
       numUsers: numUsers
     });
 
-    // echo globally (all clients) that a person has connected
-    // socket.broadcast.to('大廳').emit('user joined', {
-    //   username: socket.username,
-    //   numUsers: numUsers
-    // });
+    // echo to room (default as 'Lobby') that a person has connected
+    socket.broadcast.to(curRoomName).emit('user joined', {
+      username: socket.username,
+      numUsers: numUsers
+    });
   });
 
   // when the client emits 'typing', we broadcast it to others
   socket.on('typing', function () {
-    socket.broadcast.emit('typing', {
+    socket.broadcast.to(curRoomName).emit('typing', {
       username: socket.username
     });
   });
@@ -67,8 +79,11 @@ io.on('connection', function (socket) {
     if (addedUser) {
       --numUsers;
 
+      if (numUsers === 0) {
+        curRoomList = [];
+      }
       // echo globally that this client has left
-      socket.broadcast.emit('user left', {
+      socket.broadcast.to(curRoomName).emit('user left', {
         username: socket.username,
         numUsers: numUsers
       });
@@ -76,17 +91,28 @@ io.on('connection', function (socket) {
   });
 
   socket.on('room list', function () {
-    socket.emit('room list', currentRoom)
+    socket.emit('show room list', curRoomList);
   });
 
   socket.on('join room', function (room) {
-    socket.join(room);
-    currentRoom[socket.id] = room;
-    socket.broadcast.to(room).emit('user joined', {
-      username: socket.username,
-      numUsers: numUsers
-    });
+    socket.emit('stop typing');
+    if (room !== curRoomName) {
+      socket.leave(curRoomName);
+      socket.join(room);
+
+      // If there is no the same room in room list, add it to room list.
+      if (curRoomList.indexOf(room) === -1) {
+        curRoomList.push(room);
+      }
+
+      socket.emit('show room list', curRoomList);
+      curRoomName = room;
+      socket.broadcast.to(room).emit('user joined', {
+        username: socket.username,
+        numUsers: numUsers
+      })
+    }
   });
 
-  socket.on('leave room');
+  // socket.on('leave room');
 });

@@ -29,6 +29,7 @@ $(function() {
   var typing = false;
   var lastTypingTime;
   var $currentInput = $usernameInput.focus();
+  var $roomDiv;
 
   var socket = io();
 
@@ -37,7 +38,7 @@ $(function() {
     if (data.numUsers === 1) {
       message = '目前只有你一個人在這裡唷！';
     } else {
-      message = '目前總共有 ' + data.numUsers + ' 人在聊天實驗室裡。';
+      message = '目前總共有 ' + data.numUsers + ' 位旅客在聊天實驗室。';
     }
     log(message);
   }
@@ -61,7 +62,7 @@ $(function() {
     }
   }
 
-  // Sends a chat message
+  // Sends a chat message.
   function sendMessage () {
     var message = $inputMessage.val();
     // Prevent markup from being injected into the message
@@ -76,24 +77,36 @@ $(function() {
         });
         // tell server to execute 'new message' and send along one parameter
         socket.emit('new message', message);
+
+        // If input a command with '/'.
       } else {
-        var words = message.split(' ');
-        var cmd = words[0]
-          .substring(1, words[0].length)
-          .toLowerCase();
-
-        switch (cmd) {
-          case 'join':
-            words.shift();
-            var room = words.join(' ');
-            socket.emit('join room', room);
-            break;
-
-          default:
-            message = '您輸入了無效的指令';
-            break;
-        }
+        inputCommand(message);
       }
+    }
+  }
+
+  // Sends a command.
+  function inputCommand (message) {
+    var words = message.split(' ');
+    var cmd = words[0]
+      .substring(1, words[0].length)
+      .toLowerCase();
+
+    switch (cmd) {
+      case 'join':
+        words.shift();
+        var room = words.join(' ');
+        socket.emit('join room', room);
+        break;
+
+      case 'ls':
+        socket.emit('room list');
+        break;
+
+      default:
+        message = '您輸入了無效的指令';
+        log(message);
+        break;
     }
   }
 
@@ -227,15 +240,8 @@ $(function() {
     });
   }
 
-  // Gets the color of a username through our hash function
+  // Gets the color of a username.
   function getUsernameColor (username) {
-    // // Compute hash code
-    // var hash = 7;
-    // for (var i = 0; i < username.length; i++) {
-    //    hash = username.charCodeAt(i) + (hash << 5) - hash;
-    // }
-    // // Calculate color
-    // var index = Math.abs(hash % COLORS.length);
     var eachCharCode = 0;
     var randIndex;
     for (var ii = 0; ii < username.length; ii++) {
@@ -290,8 +296,8 @@ $(function() {
     log(message, {
       prepend: true
     });
+    socket.emit('room list');
     addParticipantsMessage(data);
-    socket.emit('join room', '大廳');
   });
 
   // Whenever the server emits 'new message', update the chat body
@@ -301,7 +307,7 @@ $(function() {
 
   // Whenever the server emits 'user joined', log it in the chat body
   socket.on('user joined', function (data) {
-    log('已經加入這間房間', {
+    log('已經加入聊天實驗室', {
       userJoinLeft: true,
       username: data.username
     });
@@ -310,7 +316,7 @@ $(function() {
 
   // Whenever the server emits 'user left', log it in the chat body
   socket.on('user left', function (data) {
-    log('已經離開這間房間', {
+    log('已經離開聊天實驗室', {
       userJoinLeft: true,
       username: data.username
     });
@@ -343,22 +349,23 @@ $(function() {
     log('重新連線失敗...');
   });
 
-  socket.on('room list', function (rooms) {
+  socket.on('show room list', function (rooms) {
     $roomList.empty();
 
     $.each(rooms, function (key, value) {
-      var $roomDiv = $('<div class="room"></div>')
-        .html('<b>' + value + '</b>');
+      $roomDiv = $('<div class="room"></div>')
+        .html('<b>' + value + '</b>')
+        .addClass(value)
+        .click(function () {
+          socket.emit('join room', value);
+          $inputMessage.focus();
+        });
       $roomList.append($roomDiv);
-    });
-    $('.room').click( function () {
-      socket.emit('join room');
-      $inputMessage.focus();
     });
   });
 
-  setInterval(function () {
-    socket.emit('room list');
-  }, 1000);
+  // setInterval(function () {
+  //   socket.emit('room list');
+  // }, 10000);
 
 });
