@@ -35,10 +35,14 @@ $(function() {
 
   function addParticipantsMessage (data) {
     var message;
-    if (data.numUsers === 1) {
-      message = '目前只有你一個人在這裡唷！';
+    if (!data.userJoinRoom) {
+      if (data.numUsers === 1) {
+        message = '目前只有你一個人在這裡唷！';
+      } else {
+        message = '目前總共有 ' + data.numUsers + ' 位旅客在聊天實驗室。';
+      }
     } else {
-      message = '目前總共有 ' + data.numUsers + ' 位旅客在聊天實驗室。';
+      message = '目前總共有 ' + data.numUsers + ' 位旅客在此房間。';
     }
     log(message);
   }
@@ -307,7 +311,7 @@ $(function() {
 
   // Whenever the server emits 'user joined', log it in the chat body
   socket.on('user joined', function (data) {
-    log('已經加入聊天實驗室', {
+    log(data.logJoin + data.logLocation, {
       userJoinLeft: true,
       username: data.username
     });
@@ -364,8 +368,8 @@ $(function() {
     });
   });
 
-  // setInterval(function () {
-  //   socket.emit('room list');
-  // }, 10000);
+  setInterval(function () {
+    socket.emit('room list');
+  }, 30000);
 
 });

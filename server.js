@@ -15,9 +15,10 @@ app.use(express.static(__dirname + '/public'));
 // Chat room
 
 var numUsers = 0;
-var curUserList = {};
-var curUserNum = {};
 var curRoomList = [];
+var logJoin = '已經加入';
+var logLab = '聊天實驗室';
+var logRoom = '房間 ';
 
 io.on('connection', function (socket) {
   var addedUser = false;
@@ -54,9 +55,12 @@ io.on('connection', function (socket) {
     });
 
     // echo to room (default as 'Lobby') that a person has connected
-    socket.broadcast.to(curRoomName).emit('user joined', {
+    socket.broadcast.emit('user joined', {
       username: socket.username,
-      numUsers: numUsers
+      numUsers: numUsers,
+      logJoin: logJoin,
+      logLocation: logLab,
+      userJoinRoom: false
     });
   });
 
@@ -90,6 +94,7 @@ io.on('connection', function (socket) {
     }
   });
 
+  // Show room list to user.
   socket.on('room list', function () {
     socket.emit('show room list', curRoomList);
   });
@@ -109,10 +114,11 @@ io.on('connection', function (socket) {
       curRoomName = room;
       socket.broadcast.to(room).emit('user joined', {
         username: socket.username,
-        numUsers: numUsers
+        numUsers: numUsers,
+        logJoin: logJoin,
+        logLocation: logRoom + '「' + room + '」',
+        userJoinRoom: true
       })
     }
   });
-
-  // socket.on('leave room');
 });
