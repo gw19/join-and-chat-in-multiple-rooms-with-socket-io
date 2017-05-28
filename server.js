@@ -50,6 +50,8 @@ io.on('connection', function (socket) {
       curRoomList.push(curRoomName);
     }
 
+    socket.emit('show room list', curRoomList, curRoomName);
+
     socket.emit('login', {
       numUsers: numUsers
     });
@@ -96,7 +98,7 @@ io.on('connection', function (socket) {
 
   // Show room list to user.
   socket.on('room list', function () {
-    socket.emit('show room list', curRoomList);
+    socket.emit('show room list', curRoomList, curRoomName);
   });
 
   socket.on('join room', function (room) {
@@ -108,9 +110,18 @@ io.on('connection', function (socket) {
       // If there is no the same room in room list, add it to room list.
       if (curRoomList.indexOf(room) === -1) {
         curRoomList.push(room);
+        socket.emit('join result', {
+          logAction: '您已經建立房間',
+          roomName: room
+        });
+      } else {
+        socket.emit('join result', {
+          logAction: '您已經加入房間',
+          roomName: room
+        });
       }
 
-      socket.emit('show room list', curRoomList);
+      socket.emit('show room list', curRoomList, room);
       curRoomName = room;
       socket.broadcast.to(room).emit('user joined', {
         username: socket.username,

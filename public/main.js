@@ -13,6 +13,7 @@ $(function() {
   ];
 
   // Initialize variables
+  //noinspection JSUnresolvedVariable
   var $window = $(window);
   var $usernameInput = $('.usernameInput'); // Input for username
   var $messages = $('.messages'); // Messages area
@@ -101,6 +102,8 @@ $(function() {
         words.shift();
         var room = words.join(' ');
         socket.emit('join room', room);
+        //noinspection JSUnresolvedVariable
+        $roomList[0].scrollTop = $roomList[0].scrollHeight;
         break;
 
       case 'ls':
@@ -209,6 +212,7 @@ $(function() {
       $messages.append($el);
     }
     // When sending message, make screen to last message (here is bottom).
+    //noinspection JSUnresolvedVariable
     $messages[0].scrollTop = $messages[0].scrollHeight;
   }
 
@@ -259,6 +263,7 @@ $(function() {
 
   $window.keydown(function (event) {
     // Auto-focus the current input when a key is typed
+    //noinspection JSUnresolvedVariable
     if (!(event.ctrlKey || event.metaKey || event.altKey)) {
       $currentInput.focus();
     }
@@ -300,7 +305,6 @@ $(function() {
     log(message, {
       prepend: true
     });
-    socket.emit('room list');
     addParticipantsMessage(data);
   });
 
@@ -353,7 +357,7 @@ $(function() {
     log('重新連線失敗...');
   });
 
-  socket.on('show room list', function (rooms) {
+  socket.on('show room list', function (rooms, room) {
     $roomList.empty();
 
     $.each(rooms, function (key, value) {
@@ -366,10 +370,28 @@ $(function() {
         });
       $roomList.append($roomDiv);
     });
+
+    $('.' + room).addClass('joined-room');
   });
 
+  socket.on('join result', function (data) {
+    // log results.
+    log(data.logAction + '「' + data.roomName + '」', {});
+
+    // Change current room css.
+    // $('.' + data.roomName).css({
+    //   'background-color': '#B22222',
+    //   'color': '#FFFFFF'
+    // });
+  });
+
+  // Every 30 secs.
   setInterval(function () {
     socket.emit('room list');
   }, 30000);
 
+
+  // jQuery UI Style
+  //noinspection JSUnresolvedFunction
+  $roomList.sortable();
 });

@@ -6,8 +6,13 @@
   <title>Socket.IO Chat Example</title>
   <link href='jquery-ui.min.css' rel='stylesheet'>
   <link href='style.css' rel='stylesheet' >
+  <script src="https://use.typekit.net/ama5eep.js"></script>
+  <script>try{Typekit.load({ async: true });}catch(e){}</script>
   <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
-  <script src='jquery-ui.min.js'></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+          integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+          crossorigin="anonymous"></script>
+  <script src='https://code.jquery.com/ui/1.12.1/themes/blitzer/jquery-ui.css'></script>
   <script src='/socket.io/socket.io.js'></script>
   <script src='/main.js'></script>
 </head>
@@ -34,7 +39,7 @@
     </li>
 
     <li class='room page' id='room-page'>
-      <b class='room-title'>房間列表</b>
+      <h1 class='room-title'>房間列表</h1>
       <ul class='room-list'></ul>
     </li>
 

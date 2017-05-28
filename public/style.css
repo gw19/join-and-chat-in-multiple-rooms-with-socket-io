@@ -39,6 +39,7 @@ ul.roomList {
 /* Pages */
 
 .pages {
+  font-family: "source-han-sans-traditional",sans-serif;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -46,6 +47,7 @@ ul.roomList {
 }
 
 .page {
+  border: #525252 solid 2px;
   height: 100%;
   position: absolute;
   width: 100%;
@@ -180,14 +182,15 @@ ul.roomList {
 }
 
 .room.page .room-title {
-  color: darkgreen;
-  font-size: 150%;
+  border-bottom: #3d3d3d solid 2px;
+  color: #3d3d3d;
+  font-size: 200%;
   font-weight: bold;
+  padding: -10px 0 20px 0;
 }
 
 .room.page .room-list {
-  height: 90%;
-  margin: 0;
+  max-height: 80%;
   overflow-y: scroll;
   position: absolute;
   text-align: left;
@@ -195,12 +198,24 @@ ul.roomList {
 }
 
 div.room {
+  border: #3d3d3d solid 2px;
+  border-radius: 15px;
+  color: #3d3d3d;
   font-size: 150%;
   font-weight: bold;
-  transition: 0.2s;
+  margin: 10px 10px 10px -20px;
+  padding: 10px 10px;
+  transition: 0.3s;
 }
 
 div.room:hover {
-  color: firebrick;
+  background: firebrick;
+  color: white;
   cursor: pointer;
+}
+
+.joined-room {
+  background: firebrick !important;
+  color: white !important;
+  cursor: pointer !important;
 }
