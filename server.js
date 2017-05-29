@@ -1,3 +1,5 @@
+// Copyright (c) GW19 <imgw19@gmail.com>
+
 // Setup basic express server
 var express = require('express');
 var app = express();
@@ -14,8 +16,10 @@ app.use(express.static(__dirname + '/public'));
 
 // Chat room
 
+// Total number of users
 var numUsers = 0;
-var curRoomList = [];
+// Current room list.
+var curRoomList = {};
 
 // Action: Create, Join, Left.
 var logCreate = '已經建立';
@@ -53,12 +57,15 @@ io.on('connection', function (socket) {
     socket.join(curRoomName);
 
     // If there is no the same curRoomName in room list, add it to room list.
-    if (curRoomList.indexOf(curRoomName) === -1) {
-      curRoomList.push(curRoomName);
+    // And set user number in it = 1, else user number + 1.
+    if (!isRoomExist(curRoomName, curRoomList)) {
+      curRoomList[curRoomName] = 1;
+    } else {
+      ++curRoomList[curRoomName];
     }
 
-    // First join char room, show current room list.
-    socket.emit('show room list', curRoomList, curRoomName);
+    // First join chat room, show current room list.
+    socket.emit('show room list', curRoomName, curRoomList);
 
     socket.emit('login', {
       numUsers: numUsers
@@ -93,9 +100,10 @@ io.on('connection', function (socket) {
   socket.on('disconnect', function () {
     if (addedUser) {
       --numUsers;
+      --curRoomList[curRoomName];
 
       if (numUsers === 0) {
-        curRoomList = [];
+        curRoomList = {};
       }
       // echo globally that this client has left
       socket.broadcast.to(curRoomName).emit('user left', {
@@ -110,7 +118,7 @@ io.on('connection', function (socket) {
 
   // Show room list to user.
   socket.on('room list', function () {
-    socket.emit('show room list', curRoomList, curRoomName);
+    socket.emit('show room list', curRoomName, curRoomList);
   });
 
   socket.on('join room', function (room) {
@@ -127,13 +135,14 @@ io.on('connection', function (socket) {
         roomName: '「' + curRoomName + '」',
         userJoinOrLeftRoom: true
       });
+      --curRoomList[curRoomName];
 
       // Then join a new room. -------------------------------------------------
       socket.join(room);
 
       // If there is no the same room in room list, add it to room list.
-      if (curRoomList.indexOf(room) === -1) {
-        curRoomList.push(room);
+      if (!isRoomExist(room, curRoomList)) {
+        curRoomList[room] = 1;
         socket.emit('join left result', {
           username: '您',
           logAction: logCreate,
@@ -141,6 +150,7 @@ io.on('connection', function (socket) {
           roomName: '「' + room + '」'
         });
       } else {
+        ++curRoomList[room];
         socket.emit('join left result', {
           username: '您',
           logAction: logJoin,
@@ -150,7 +160,7 @@ io.on('connection', function (socket) {
       }
 
       // Every time you join a room, reload current room list.
-      socket.emit('show room list', curRoomList, room);
+      socket.emit('show room list', room, curRoomList);
       curRoomName = room;
       socket.broadcast.to(room).emit('user joined', {
         username: socket.username,
@@ -163,3 +173,8 @@ io.on('connection', function (socket) {
     }
   });
 });
+
+// Check if roomName is in roomList Object.
+function isRoomExist (roomName, roomList) {
+  return roomList[roomName] >= 0;
+}

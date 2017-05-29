@@ -1,3 +1,5 @@
+// Copyright (c) GW19 <imgw19@gmail.com>
+
 $(function() {
   var FADE_TIME = 150; // ms
   var TYPING_TIMER_LENGTH = 400; // ms
@@ -322,6 +324,7 @@ $(function() {
       username: data.username
     });
     addParticipantsMessage(data);
+    socket.emit('room list');
   });
 
   // Whenever the server emits 'user left', log it in the chat body
@@ -332,6 +335,8 @@ $(function() {
     });
     addParticipantsMessage(data);
     removeChatTyping(data);
+    // Reload room list.
+    socket.emit('room list');
   });
 
   // Whenever the server emits 'typing', show the typing message
@@ -346,12 +351,16 @@ $(function() {
 
   socket.on('disconnect', function () {
     log('您已經中斷連線');
+    // Reload room list.
+    socket.emit('room list');
   });
 
   socket.on('reconnect', function () {
     log('您已經重新連線');
     if (username) {
       socket.emit('add user', username);
+      // Reload room list.
+      socket.emit('room list');
     }
   });
 
@@ -360,18 +369,18 @@ $(function() {
   });
 
   // Show current room list.
-  socket.on('show room list', function (rooms, room) {
+  socket.on('show room list', function (room, rooms) {
     $roomList.empty();
     var roomClassName = room.trim().toLowerCase().replace(/\s/g,'');
 
-    $.each(rooms, function (key, value) {
+    $.each(rooms, function (roomName, numUserInRoom) {
       // Set class name of room's <div> to be clear.
-      var className = value.trim().toLowerCase().replace(/\s/g,'');
+      var className = roomName.trim().toLowerCase().replace(/\s/g,'');
       $roomDiv = $('<div class="room"></div>')
-        .html('<b>' + value + '</b>')
+        .html('<b>' + roomName + '</b>' + '  (' + numUserInRoom + '人)')
         .addClass(className)
         .click(function () {
-          socket.emit('join room', value);
+          socket.emit('join room', roomName);
           $inputMessage.focus();
         });
       $roomList.append($roomDiv);
