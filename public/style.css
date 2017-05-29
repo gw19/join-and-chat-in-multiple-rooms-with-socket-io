@@ -221,3 +221,7 @@ div.room:hover {
   color: white !important;
   cursor: pointer !important;
 }
+
+.user-number-in-room {
+  float: right;
+}

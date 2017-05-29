@@ -377,7 +377,9 @@ $(function() {
       // Set class name of room's <div> to be clear.
       var className = roomName.trim().toLowerCase().replace(/\s/g,'');
       $roomDiv = $('<div class="room"></div>')
-        .html('<b>' + roomName + '</b>' + '  (' + numUserInRoom + '人)')
+        .html('<b>' + roomName + '</b>'
+          + '<span class="user-number-in-room">'
+          + '(' + numUserInRoom + '人' + ')' + '</span>')
         .addClass(className)
         .click(function () {
           socket.emit('join room', roomName);
