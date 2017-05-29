@@ -36,14 +36,14 @@ $(function() {
 
   function addParticipantsMessage (data) {
     var message;
-    if (!data.userJoinRoom) {
+    if (!data.userJoinOrLeftRoom) {
       if (data.numUsers === 1) {
         message = '目前只有你一個人在這裡唷！';
       } else {
         message = '目前總共有 ' + data.numUsers + ' 位旅客在聊天實驗室。';
       }
     } else {
-      message = '目前總共有 ' + data.numUsers + ' 位旅客在此房間。';
+      // message = '目前總共有 ' + data.numUsers + ' 位旅客在此房間。';
     }
     log(message);
   }
@@ -98,6 +98,7 @@ $(function() {
       .toLowerCase();
 
     switch (cmd) {
+      // Command /join [room name] = join room.
       case 'join':
         words.shift();
         var room = words.join(' ');
@@ -106,6 +107,7 @@ $(function() {
         $roomList[0].scrollTop = $roomList[0].scrollHeight;
         break;
 
+      // Command /ls = reload room list.
       case 'ls':
         socket.emit('room list');
         break;
@@ -315,7 +317,7 @@ $(function() {
 
   // Whenever the server emits 'user joined', log it in the chat body
   socket.on('user joined', function (data) {
-    log(data.logJoin + data.logLocation, {
+    log(data.logAction + data.logLocation + data.roomName, {
       userJoinLeft: true,
       username: data.username
     });
@@ -324,7 +326,7 @@ $(function() {
 
   // Whenever the server emits 'user left', log it in the chat body
   socket.on('user left', function (data) {
-    log('已經離開聊天實驗室', {
+    log(data.logAction + data.logLocation + data.roomName, {
       userJoinLeft: true,
       username: data.username
     });
@@ -357,13 +359,17 @@ $(function() {
     log('重新連線失敗...');
   });
 
+  // Show current room list.
   socket.on('show room list', function (rooms, room) {
     $roomList.empty();
+    var roomClassName = room.trim().toLowerCase().replace(/\s/g,'');
 
     $.each(rooms, function (key, value) {
+      // Set class name of room's <div> to be clear.
+      var className = value.trim().toLowerCase().replace(/\s/g,'');
       $roomDiv = $('<div class="room"></div>')
         .html('<b>' + value + '</b>')
-        .addClass(value)
+        .addClass(className)
         .click(function () {
           socket.emit('join room', value);
           $inputMessage.focus();
@@ -371,12 +377,13 @@ $(function() {
       $roomList.append($roomDiv);
     });
 
-    $('.' + room).addClass('joined-room');
+    $('.' + roomClassName).addClass('joined-room');
   });
 
-  socket.on('join result', function (data) {
+  socket.on('join left result', function (data) {
     // log results.
-    log(data.logAction + '「' + data.roomName + '」', {});
+    log(data.username + data.logAction
+      + data.logLocation + data.roomName, {});
 
     // Change current room css.
     // $('.' + data.roomName).css({
@@ -385,7 +392,7 @@ $(function() {
     // });
   });
 
-  // Every 30 secs.
+  // Every 30 secs. reload current room list.
   setInterval(function () {
     socket.emit('room list');
   }, 30000);

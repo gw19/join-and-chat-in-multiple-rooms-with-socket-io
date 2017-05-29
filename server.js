@@ -16,7 +16,14 @@ app.use(express.static(__dirname + '/public'));
 
 var numUsers = 0;
 var curRoomList = [];
+
+// Action: Create, Join, Left.
+var logCreate = '已經建立';
 var logJoin = '已經加入';
+var logLeft = '已經離開';
+
+// Location: Lab (main website, can be joined or left),
+//           Room (can be created, joined, Left)
 var logLab = '聊天實驗室';
 var logRoom = '房間 ';
 
@@ -50,6 +57,7 @@ io.on('connection', function (socket) {
       curRoomList.push(curRoomName);
     }
 
+    // First join char room, show current room list.
     socket.emit('show room list', curRoomList, curRoomName);
 
     socket.emit('login', {
@@ -60,9 +68,10 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('user joined', {
       username: socket.username,
       numUsers: numUsers,
-      logJoin: logJoin,
+      logAction: logJoin,
       logLocation: logLab,
-      userJoinRoom: false
+      roomName: '',
+      userJoinOrLeftRoom: false
     });
   });
 
@@ -91,7 +100,10 @@ io.on('connection', function (socket) {
       // echo globally that this client has left
       socket.broadcast.to(curRoomName).emit('user left', {
         username: socket.username,
-        numUsers: numUsers
+        numUsers: numUsers,
+        logAction: logLeft,
+        logLocation: logLab,
+        roomName: ''
       });
     }
   });
@@ -103,32 +115,50 @@ io.on('connection', function (socket) {
 
   socket.on('join room', function (room) {
     socket.emit('stop typing');
+
     if (room !== curRoomName) {
+      // Before join room, first need to leave current room. -------------------
       socket.leave(curRoomName);
+      socket.broadcast.to(curRoomName).emit('user left', {
+        username: socket.username,
+        numUsers: numUsers,
+        logAction: logLeft,
+        logLocation: logRoom,
+        roomName: '「' + curRoomName + '」',
+        userJoinOrLeftRoom: true
+      });
+
+      // Then join a new room. -------------------------------------------------
       socket.join(room);
 
       // If there is no the same room in room list, add it to room list.
       if (curRoomList.indexOf(room) === -1) {
         curRoomList.push(room);
-        socket.emit('join result', {
-          logAction: '您已經建立房間',
-          roomName: room
+        socket.emit('join left result', {
+          username: '您',
+          logAction: logCreate,
+          logLocation: logRoom,
+          roomName: '「' + room + '」'
         });
       } else {
-        socket.emit('join result', {
-          logAction: '您已經加入房間',
-          roomName: room
+        socket.emit('join left result', {
+          username: '您',
+          logAction: logJoin,
+          logLocation: logRoom,
+          roomName: '「' + room + '」'
         });
       }
 
+      // Every time you join a room, reload current room list.
       socket.emit('show room list', curRoomList, room);
       curRoomName = room;
       socket.broadcast.to(room).emit('user joined', {
         username: socket.username,
         numUsers: numUsers,
-        logJoin: logJoin,
-        logLocation: logRoom + '「' + room + '」',
-        userJoinRoom: true
+        logAction: logJoin,
+        logLocation: logRoom,
+        roomName: '「' + room + '」',
+        userJoinOrLeftRoom: true
       })
     }
   });
