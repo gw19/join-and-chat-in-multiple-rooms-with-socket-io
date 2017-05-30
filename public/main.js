@@ -33,6 +33,7 @@ $(function() {
   var lastTypingTime;
   var $currentInput = $usernameInput.focus();
   var $roomDiv;
+  var roomNameRule = /^[a-zA-Z0-9_\u4e00-\u9fa5]{1,14}$/;
 
   var socket = io();
 
@@ -104,9 +105,14 @@ $(function() {
       case 'join':
         words.shift();
         var room = words.join(' ');
-        socket.emit('join room', room);
-        //noinspection JSUnresolvedVariable
-        $roomList[0].scrollTop = $roomList[0].scrollHeight;
+        if (roomNameRule.test(room)) {
+          socket.emit('join room', room);
+          //noinspection JSUnresolvedVariable
+          $roomList[0].scrollTop = $roomList[0].scrollHeight;
+        } else {
+          log('房間名稱長度限制為 1～14 個字元，' +
+              '並只能由中文、英文、數字及底線所組成', {})
+        }
         break;
 
       // Command /ls = reload room list.
@@ -395,12 +401,6 @@ $(function() {
     // log results.
     log(data.username + data.logAction
       + data.logLocation + data.roomName, {});
-
-    // Change current room css.
-    // $('.' + data.roomName).css({
-    //   'background-color': '#B22222',
-    //   'color': '#FFFFFF'
-    // });
   });
 
   // Every 30 secs. reload current room list.

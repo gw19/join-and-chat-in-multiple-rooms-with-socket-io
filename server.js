@@ -102,6 +102,12 @@ io.on('connection', function (socket) {
       --numUsers;
       --curRoomList[curRoomName];
 
+      // If there is no user in room, delete this room,
+      // Except this room is 'Lobby'.
+      if (curRoomList[curRoomName] === 0 && curRoomName !== '大廳') {
+        delete curRoomList[curRoomName];
+      }
+
       if (numUsers === 0) {
         curRoomList = {};
       }
@@ -137,6 +143,12 @@ io.on('connection', function (socket) {
       });
       --curRoomList[curRoomName];
 
+      // If there is no user in room, delete this room,
+      // Except this room is 'Lobby'.
+      if (curRoomList[curRoomName] === 0 && curRoomName !== '大廳') {
+        delete curRoomList[curRoomName];
+      }
+
       // Then join a new room. -------------------------------------------------
       socket.join(room);
 
@@ -159,7 +171,7 @@ io.on('connection', function (socket) {
         });
       }
 
-      // Every time you join a room, reload current room list.
+      // Every time someone join a room, reload current room list.
       socket.emit('show room list', room, curRoomList);
       curRoomName = room;
       socket.broadcast.to(room).emit('user joined', {
