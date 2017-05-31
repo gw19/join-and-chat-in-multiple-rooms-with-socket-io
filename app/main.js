@@ -1,4 +1,5 @@
-// Copyright (c) GW19 <imgw19@gmail.com>
+// Author: GW19 <imgw19@gmail.com>
+// Based on Socket.io
 
 $(function() {
   var FADE_TIME = 150; // ms

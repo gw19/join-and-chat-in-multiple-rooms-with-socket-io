@@ -1,4 +1,5 @@
-// Copyright (c) GW19 <imgw19@gmail.com>
+// Author: GW19 <imgw19@gmail.com>
+// Based on Socket.io
 
 // Setup basic express server
 var express = require('express');
@@ -12,7 +13,7 @@ server.listen(port, function () {
 });
 
 // Routing
-app.use(express.static('../app'));
+app.use(express.static(__dirname + '/../app'));
 
 // Chat room
 

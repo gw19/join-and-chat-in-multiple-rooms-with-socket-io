@@ -1,10 +1,16 @@
 {
-  "name": "ChatRooms",
-  "version": "0.0.1",
-  "description": "A simple chat client using socket.io",
+  "name": "JoinAndChat",
+  "version": "1.6.1",
+  "description": "Join mulitiple rooms and chat based on socket.io",
+  "author": "GW19",
+  "private": true,
   "license": "BSD",
+  "main": "server.js",
   "dependencies": {
     "express": "4.13.4",
     "socket.io": "^1.7.3"
+  },
+  "scripts": {
+    "start": "node server/server.js"
   }
 }
