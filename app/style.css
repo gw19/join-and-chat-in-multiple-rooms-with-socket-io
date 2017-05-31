@@ -229,3 +229,79 @@ div.room:hover {
 .user-number-in-room {
   float: right;
 }
+
+/* Tool buttons */
+
+.btn {
+  background-color: transparent;
+  border: #367ABD solid 0.12em;
+  border-radius: 100em;
+  cursor: pointer;
+  color: #3d3d3d;
+  display: block;
+  font-size: 200%;
+  font-weight: bold;
+  height: 60px;
+  overflow: auto;
+  padding: 0;
+  position: absolute;
+  text-align: center;
+  transition: 0.3s;
+  vertical-align: top;
+  width: 60px;
+}
+
+.btn:hover {
+  background-color: #367ABD;
+  border: #3d3d3d solid 0.12em;
+  color: #fffad3;
+  transition: 0.3s;
+}
+
+.btn:focus {
+  transition: 0s;
+}
+
+.btn:active {
+  background-color: #3d3d3d;
+  border: #367ABD solid 0.12em;
+  color: #fffad3;
+  transition: 0s;
+}
+
+.btn.btn-tips {
+  right: 2em;
+  top: 1em;
+}
+
+/* Tool slides */
+
+.ui-tips {
+  background-color: whitesmoke;
+  border: #666666 solid 0.1em;
+  border-radius: 15px;
+  display: none;
+  float: left;
+  width: 26em;
+  height: 24em;
+  overflow: auto;
+  position: absolute;
+  right: 3em;
+  top: 7em;
+}
+.tips-title {
+  background-color: lightgrey;
+  border-radius: 15px 15px 0 0;
+  margin: 0;
+  padding: 0.1em;
+  text-align: center;
+}
+
+.tips h4 {
+  margin: 1%;
+}
+
+.tips {
+  color: #3d3d3d;
+  margin: 2%;
+}

@@ -1,20 +1,25 @@
 <!-- Author GW19 <imgw19@gmail.com> -->
 
 <!doctype html>
-<html lang='en'>
+<html lang='zh-TW-Hant'>
 
 <head>
   <meta charset='UTF-8'>
   <title>Join and Chat</title>
-  <link href='jquery-ui.min.css' rel='stylesheet'>
   <link href='style.css' rel='stylesheet' >
+
   <script src="https://use.typekit.net/ama5eep.js"></script>
   <script>try{Typekit.load({ async: true });}catch(e){}</script>
+
   <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
+  <link rel="stylesheet"
+        href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
           integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
           crossorigin="anonymous"></script>
-  <script src='https://code.jquery.com/ui/1.12.1/themes/blitzer/jquery-ui.css'></script>
+
   <script src='/socket.io/socket.io.js'></script>
   <script src='/main.js'></script>
 </head>
@@ -26,6 +31,25 @@
       <div class='chatArea'>
         <ul class='messages'></ul>
       </div>
+
+      <button class='btn btn-tips' title='小提示'>?</button>
+
+      <div id='effect-tips' class='ui-tips'>
+        <h3 class='tips-title'>小提示</h3>
+        <div class='tips'>
+          <h3>系統指令</h3>
+          <h4>/join [房間名稱]：建立∕加入房間</h4>
+          （房間名稱長度限制為 1～14 個字元，
+          並只能由中文、英文、數字及底線所組成）<br><br>
+          <h4>/ls：刷新房間列表</h4>
+          （系統每30秒會自動刷新，另外有人加入或離開房間也會立即刷新）<br>
+          <br>
+          作者：GW19 &nbsp;
+          &lt; <a href='mailto:imgw19@gmail.com'>imgw19@gmail.com</a> &gt;<br>
+          Github：<a href='https://github.com/gw19'>https://github.com/gw19</a>
+        </div>
+      </div>
+
       <input class='inputMessage' placeholder='請在此輸入訊息'/>
     </li>
 

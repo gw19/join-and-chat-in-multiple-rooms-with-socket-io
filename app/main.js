@@ -16,16 +16,16 @@ $(function() {
   ];
 
   // Initialize variables
-  //noinspection JSUnresolvedVariable
   var $window = $(window);
   var $usernameInput = $('.usernameInput'); // Input for username
   var $messages = $('.messages'); // Messages area
   var $inputMessage = $('.inputMessage'); // Input message input box
 
-  var $loginPage = $('.login.page'); // The login page
-  var $chatPage = $('.chat.page'); // The chat room page
-  var $roomPage = $('.room.page'); // The room list page
-  var $roomList = $('.room-list');
+  var $loginPage = $('.login.page'); // login page
+  var $chatPage = $('.chat.page'); // Chat room page
+  var $roomPage = $('.room.page'); // Room list page
+  var $roomList = $('.room-list'); // Room list <ul>
+  var $btnTips = $('.btn-tips'); // Tool buttons
 
   // Prompt for setting a username
   var username;
@@ -165,19 +165,21 @@ $(function() {
     if (data.typing !== true) {
       userName += ': ';
     }
-    var $usernameDiv = $('<span class="username"/>')
-      .text(userName)
-      .css('color', colorOfUserName);
-    var $messageBodyDiv = $('<span class="messageBody">')
-      .text(data.message);
+    if (data.message !== ''){
+      var $usernameDiv = $('<span class="username"/>')
+        .text(userName)
+        .css('color', colorOfUserName);
+      var $messageBodyDiv = $('<span class="messageBody">')
+        .text(data.message);
 
-    var typingClass = data.typing ? 'typing' : '';
-    var $messageDiv = $('<li class="message"/>')
-      .data('username', userName)
-      .addClass(typingClass)
-      .append($usernameDiv, $messageBodyDiv);
+      var typingClass = data.typing ? 'typing' : '';
+      var $messageDiv = $('<li class="message"/>')
+        .data('username', userName)
+        .addClass(typingClass)
+        .append($usernameDiv, $messageBodyDiv);
 
-    addMessageElement($messageDiv, options);
+      addMessageElement($messageDiv, options);
+    }
   }
 
   // Adds the visual chat typing message
@@ -411,6 +413,9 @@ $(function() {
 
 
   // jQuery UI Style
-  //noinspection JSUnresolvedFunction
   $roomList.sortable();
+  $btnTips.tooltip();
+  $btnTips.on( "click", function() {
+    $('#effect-tips').toggle('blind');
+  });
 });
