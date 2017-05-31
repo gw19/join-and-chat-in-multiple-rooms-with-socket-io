@@ -40,14 +40,10 @@ $(function() {
 
   function addParticipantsMessage (data) {
     var message;
-    if (!data.userJoinOrLeftRoom) {
-      if (data.numUsers === 1) {
-        message = '目前只有你一個人在這裡唷！';
-      } else {
-        message = '目前總共有 ' + data.numUsers + ' 位旅客在聊天實驗室。';
-      }
+    if (data.numUsers === 1) {
+      message = '目前只有你一個人在這裡唷！';
     } else {
-      // message = '目前總共有 ' + data.numUsers + ' 位旅客在此房間。';
+      message = '目前總共有 ' + data.numUsers + ' 位旅客在聊天實驗室。';
     }
     log(message);
   }

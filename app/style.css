@@ -136,7 +136,7 @@ ul.roomList {
 
 .chatArea {
   height: 100%;
-  padding-bottom: 60px;
+  padding-bottom: 100px;
 }
 
 .messages {
@@ -191,6 +191,13 @@ ul.roomList {
   padding: -10px 0 20px 0;
 }
 
+.room.page .room-hint {
+  color: #3d3d3d;
+  font-size: 120%;
+  margin: 0;
+  text-align: center;
+  padding: 0;
+}
 .room.page .room-list {
   max-height: 80%;
   overflow-y: scroll;
