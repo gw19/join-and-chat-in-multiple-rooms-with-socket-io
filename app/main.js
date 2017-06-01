@@ -40,10 +40,12 @@ $(function() {
 
   function addParticipantsMessage (data) {
     var message;
-    if (data.numUsers === 1) {
-      message = '目前只有你一個人在這裡唷！';
-    } else {
-      message = '目前總共有 ' + data.numUsers + ' 位旅客在聊天實驗室。';
+    if (!data.userJoinOrLeftRoom) {
+      if (data.numUsers === 1) {
+        message = '目前只有你一個人在這裡唷！';
+      } else {
+        message = '目前總共有 ' + data.numUsers + ' 位旅客在聊天實驗室。';
+      }
     }
     log(message);
   }
@@ -129,7 +131,7 @@ $(function() {
     options = options || {};
     var $logDiv;
 
-    if (typeof options.userJoinLeft !== 'undefined') {
+    if (typeof options.userConnEvent !== 'undefined') {
       var userName = options.username;
       var colorOfUserName = getUsernameColor(userName);
       var $usernameDiv = $('<span class="username">')
@@ -325,7 +327,7 @@ $(function() {
   // Whenever the server emits 'user joined', log it in the chat body
   socket.on('user joined', function (data) {
     log(data.logAction + data.logLocation + data.roomName, {
-      userJoinLeft: true,
+      userConnEvent: true,
       username: data.username
     });
     addParticipantsMessage(data);
@@ -335,7 +337,7 @@ $(function() {
   // Whenever the server emits 'user left', log it in the chat body
   socket.on('user left', function (data) {
     log(data.logAction + data.logLocation + data.roomName, {
-      userJoinLeft: true,
+      userConnEvent: true,
       username: data.username
     });
     addParticipantsMessage(data);

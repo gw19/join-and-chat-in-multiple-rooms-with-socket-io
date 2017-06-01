@@ -113,7 +113,7 @@ io.on('connection', function (socket) {
         curRoomList = {};
       }
       // echo globally that this client has left
-      socket.broadcast.to(curRoomName).emit('user left', {
+      socket.broadcast.emit('user left', {
         username: socket.username,
         numUsers: numUsers,
         logAction: logLeft,
