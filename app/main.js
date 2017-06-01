@@ -42,7 +42,7 @@ $(function() {
     var message;
     if (!data.userJoinOrLeftRoom) {
       if (data.numUsers === 1) {
-        message = 'You are here alone!';
+        message = 'You are alone now!';
       } else {
         message = 'There are ' + data.numUsers + ' users in Join and Chat';
       }
