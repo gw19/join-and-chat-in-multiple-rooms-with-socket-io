@@ -21,8 +21,8 @@ while users join or leave, it will be also immediately refreshed.</li>
 <br>
 
 ## Demo
-English version: https://join-and-chat-eng.herokuapp.com/<br>
-中文版：https://join-and-chat.herokuapp.com/<br>
+English version: <a href='https://join-and-chat-eng.herokuapp.com' target='_blank'>https://join-and-chat-eng.herokuapp.com/</a><br>
+中文版：<a href='https://join-and-chat.herokuapp.com' target='_blank'>https://join-and-chat.herokuapp.com/<a><br>
 <br>
 
 ## How to use the code
