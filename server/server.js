@@ -23,18 +23,18 @@ var numUsers = 0;
 var curRoomList = {};
 
 // Action: Create, Join, Left.
-var logCreate = '已經建立';
-var logJoin = '已經加入';
-var logLeft = '已經離開';
+var logCreate = ' created';
+var logJoin = ' joined';
+var logLeft = ' left';
 
 // Location: Lab (main website, can be joined or left),
 //           Room (can be created, joined, Left)
-var logLab = '聊天實驗室';
-var logRoom = '房間 ';
+var logLab = ' Join and Chat';
+var logRoom = ' room ';
 
 io.on('connection', function (socket) {
   var addedUser = false;
-  var curRoomName = '大廳';
+  var curRoomName = 'Lobby';
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
@@ -105,7 +105,7 @@ io.on('connection', function (socket) {
 
       // If there is no user in room, delete this room,
       // Except this room is 'Lobby'.
-      if (curRoomList[curRoomName] === 0 && curRoomName !== '大廳') {
+      if (curRoomList[curRoomName] === 0 && curRoomName !== 'Lobby') {
         delete curRoomList[curRoomName];
       }
 
@@ -146,7 +146,7 @@ io.on('connection', function (socket) {
 
       // If there is no user in room, delete this room,
       // Except this room is 'Lobby'.
-      if (curRoomList[curRoomName] === 0 && curRoomName !== '大廳') {
+      if (curRoomList[curRoomName] === 0 && curRoomName !== 'Lobby') {
         delete curRoomList[curRoomName];
       }
 
@@ -157,18 +157,18 @@ io.on('connection', function (socket) {
       if (!isRoomExist(room, curRoomList)) {
         curRoomList[room] = 1;
         socket.emit('join left result', {
-          username: '您',
+          username: 'You',
           logAction: logCreate,
           logLocation: logRoom,
-          roomName: '「' + room + '」'
+          roomName: '"' + room + '"'
         });
       } else {
         ++curRoomList[room];
         socket.emit('join left result', {
-          username: '您',
+          username: 'You',
           logAction: logJoin,
           logLocation: logRoom,
-          roomName: '「' + room + '」'
+          roomName: '"' + room + '"'
         });
       }
 
@@ -180,7 +180,7 @@ io.on('connection', function (socket) {
         numUsers: numUsers,
         logAction: logJoin,
         logLocation: logRoom,
-        roomName: '「' + room + '」',
+        roomName: '"' + room + '"',
         userJoinOrLeftRoom: true
       })
     }

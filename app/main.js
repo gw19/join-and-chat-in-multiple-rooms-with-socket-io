@@ -42,9 +42,9 @@ $(function() {
     var message;
     if (!data.userJoinOrLeftRoom) {
       if (data.numUsers === 1) {
-        message = '目前只有你一個人在這裡唷！';
+        message = 'You are here alone!';
       } else {
-        message = '目前總共有 ' + data.numUsers + ' 位旅客在聊天實驗室。';
+        message = 'There are ' + data.numUsers + ' users in Join and Chat';
       }
     }
     log(message);
@@ -109,8 +109,9 @@ $(function() {
           //noinspection JSUnresolvedVariable
           $roomList[0].scrollTop = $roomList[0].scrollHeight;
         } else {
-          log('房間名稱長度限制為 1～14 個字元，' +
-              '並只能由中文、英文、數字及底線所組成', {})
+          log('Length of room name is limited to 1 to 14 characters, ' +
+              'and can only be composed by the Chinese, ' +
+            'English alphabet, digital and bottom line', {})
         }
         break;
 
@@ -120,7 +121,7 @@ $(function() {
         break;
 
       default:
-        message = '您輸入了無效的指令';
+        message = 'You have entered an invalid command';
         log(message);
         break;
     }
@@ -183,7 +184,7 @@ $(function() {
   // Adds the visual chat typing message
   function addChatTyping (data) {
     data.typing = true;
-    data.message = '正在輸入訊息...';
+    data.message = 'is typing...';
     addChatMessage(data);
   }
 
@@ -312,7 +313,7 @@ $(function() {
   socket.on('login', function (data) {
     connected = true;
     // Display the welcome message
-    var message = '● 歡迎來到聊天實驗室 ●';
+    var message = '● Welcome to Join and Chat ●';
     log(message, {
       prepend: true
     });
@@ -357,13 +358,13 @@ $(function() {
   });
 
   socket.on('disconnect', function () {
-    log('您已經中斷連線');
+    log('You have disconnected...');
     // Reload room list.
     socket.emit('room list');
   });
 
   socket.on('reconnect', function () {
-    log('您已經重新連線');
+    log('You have reconnected!');
     if (username) {
       socket.emit('add user', username);
       // Reload room list.
@@ -372,7 +373,7 @@ $(function() {
   });
 
   socket.on('reconnect_error', function () {
-    log('重新連線失敗...');
+    log('Reconnect failed...');
   });
 
   // Show current room list.
@@ -386,7 +387,7 @@ $(function() {
       $roomDiv = $('<div class="room"></div>')
         .html('<b>' + roomName + '</b>'
           + '<span class="user-number-in-room">'
-          + '(' + numUserInRoom + '人' + ')' + '</span>')
+          + '(' + numUserInRoom + ' users' + ')' + '</span>')
         .addClass(className)
         .click(function () {
           socket.emit('join room', roomName);

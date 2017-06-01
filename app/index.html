@@ -32,42 +32,44 @@
         <ul class='messages'></ul>
       </div>
 
-      <button class='btn btn-tips' title='小提示'>?</button>
+      <button class='btn btn-tips' title='Hints'>?</button>
 
       <div id='effect-tips' class='ui-tips'>
-        <h3 class='tips-title'>小提示</h3>
+        <h3 class='tips-title'>Hints</h3>
         <div class='tips'>
-          <h3>系統指令</h3>
-          <h4>/join [房間名稱]：建立∕加入房間</h4>
-          （房間名稱長度限制為 1～14 個字元，
-          並只能由中文、英文、數字及底線所組成）<br><br>
-          <h4>/ls：刷新房間列表</h4>
-          （系統每30秒會自動刷新，另外有人加入或離開房間也會立即刷新）<br>
+          <h3>System commands</h3>
+          <h4>/join [room name]：create / join</h4>
+          (Length of room name is limited to 1 to 14 characters,
+          and can only be composed by the Chinese,
+          English alphabet, digital and bottom line)<br><br>
+          <h4>/ls：Refresh the room list</h4>
+          (The system will automatically refresh every 30 secs,
+          while users join or leave will immediately refresh)<br>
           <br>
-          作者：GW19 &nbsp;
+          Author：GW19 &nbsp;
           &lt; <a href='mailto:imgw19@gmail.com'>imgw19@gmail.com</a> &gt;<br>
           Github：<a href='https://github.com/gw19'
                     target='_blank'>https://github.com/gw19</a>
         </div>
       </div>
 
-      <input class='inputMessage' placeholder='請在此輸入訊息'/>
+      <input class='inputMessage' placeholder='Say something...'/>
     </li>
 
     <li class='login page' id='login-page'>
       <div class='form'>
-        <h1 class='title'>聊天實驗室</h1>
-        <h3 class='subtitle'>請輸入您的暱稱</h3>
+        <h1 class='title'>Join and Chat</h1>
+        <h3 class='subtitle'>Please enter your nickname.</h3>
         <label>
           <input class='usernameInput' type='text' minlength='1' maxlength='14'
-                 title='暱稱需為1~14個字元所組成' autofocus/>
+                 title='Nickname is limited to 1 to 14 characters' autofocus/>
         </label>
       </div>
     </li>
 
     <li class='room page' id='room-page'>
-      <h1 class='room-title'>房間列表</h1>
-      <p class='room-hint'>點選房間區塊可直接加入該房間</p>
+      <h1 class='room-title'>Room list</h1>
+      <p class='room-hint'>Click the room block to join the room.</p>
       <ul class='room-list'></ul>
     </li>
 
