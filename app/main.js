@@ -34,7 +34,7 @@ $(function() {
   var lastTypingTime;
   var $currentInput = $usernameInput.focus();
   var $roomDiv;
-  var roomNameRule = /^[a-zA-Z0-9_\u4e00-\u9fa5 \f\n\r\t\v]{1,14}$/;
+  var roomNameRule = /^(?!\s*$)[a-zA-Z0-9_\u4e00-\u9fa5 \f\n\r\t\v]{1,14}$/;
 
   var socket = io();
 
