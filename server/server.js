@@ -139,7 +139,7 @@ io.on('connection', function (socket) {
         numUsers: numUsers,
         logAction: logLeft,
         logLocation: logRoom,
-        roomName: '「' + curRoomName + '」',
+        roomName: '"' + curRoomName + '"',
         userJoinOrLeftRoom: true
       });
       --curRoomList[curRoomName];
