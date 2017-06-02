@@ -1,5 +1,5 @@
 # join-and-chat
-Create or join rooms and chat with friends at any time, an web app based on Socket.io. （基於 Socket.io 之可建立 / 加入房間的即時多人聊天室）<br>
+Create or join rooms and chat with friends at any time. （Based on Node.js + Socket.io + Express）<br>
 
 ![join-and-chat](https://cloud.githubusercontent.com/assets/24193072/26702928/bf9f19b2-4759-11e7-8b8d-e2925de893a9.png)<br><br>
 
