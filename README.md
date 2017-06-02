@@ -28,10 +28,10 @@ English version: <a href='https://join-and-chat-eng.herokuapp.com/' target='_bla
 <br>
 
 ## How to use the code
+Must have node.js<br>
 Go to the project directory in cmd or bash, <br><br>
 ```npm install --save```<br><br>
-it will install the dependent modules defined in the package.json, <br>
-and then must have node.js. <br><br>
+it will install the dependent modules defined in the package.json, <br><br>
 ```node server/server.js```<br><br>
 While the server is running, visit <b>localhost:3232</b> (port numbers are depended on you) and that's it!<br><br>
 
