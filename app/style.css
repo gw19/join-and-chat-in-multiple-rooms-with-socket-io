@@ -253,7 +253,9 @@ div.room:hover {
   padding: 0;
   position: absolute;
   text-align: center;
-  transition: 0.3s;
+  transition-delay: 0s;
+  transition-duration: 0.3s;
+  transition-property: all;
   vertical-align: top;
   width: 60px;
 }
@@ -262,18 +264,12 @@ div.room:hover {
   background-color: #367ABD;
   border: #3d3d3d solid 0.12em;
   color: #fffad3;
-  transition: 0.3s;
-}
-
-.btn:focus {
-  transition: 0s;
 }
 
 .btn:active {
   background-color: #3d3d3d;
   border: #367ABD solid 0.12em;
   color: #fffad3;
-  transition: 0s;
 }
 
 .btn.btn-tips {
