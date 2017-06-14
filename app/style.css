@@ -270,6 +270,7 @@ div.room:hover {
   background-color: #3d3d3d;
   border: #367ABD solid 0.12em;
   color: #fffad3;
+  transition-duration: 0s;
 }
 
 .btn.btn-tips {
