@@ -1,6 +1,8 @@
 # join-and-chat （聊天實驗室）
 動態即時多人聊天室（可建立 / 加入房間），基於 node.js + Socket.io + Express。<br>
 
+![Github Releases](https://img.shields.io/badge/version-1.6.5-green.svg)
+
 ![join-and-chat](https://cloud.githubusercontent.com/assets/24193072/26714744/837dccfc-47a5-11e7-86e0-953f63dd9c77.png)<br><br>
 
 ## Introduction
