@@ -20,8 +20,7 @@
 <br>
 
 ## Demo
-English version: <a href='https://join-and-chat-eng.herokuapp.com/' target='_blank'>https://join-and-chat-eng.herokuapp.com/</a><br>
-中文版：<a href='https://join-and-chat.herokuapp.com/' target='_blank'>https://join-and-chat.herokuapp.com/<a><br>
+<a href='https://join-and-chat.herokuapp.com/' target='_blank'>https://join-and-chat.herokuapp.com/<a><br>
 <br>
 
 ## How to use the code
