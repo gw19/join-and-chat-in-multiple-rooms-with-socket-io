@@ -1,4 +1,4 @@
-# join-and-chat （聊天實驗室）
+# join-and-chat
 動態即時多人聊天室（可建立 / 加入房間），基於 node.js + Socket.io + Express。<br>
 
 ![version](https://img.shields.io/badge/version-1.6.5-green.svg)
@@ -6,7 +6,7 @@
 ![join-and-chat](https://cloud.githubusercontent.com/assets/24193072/26714744/837dccfc-47a5-11e7-86e0-953f63dd9c77.png)<br><br>
 
 ## Introduction
-在<strong>聊天實驗室</strong>中，使用者登入並輸入暱稱之後會被預設加入「大廳」，並能與其他在同一個房間內的使用者對話。這個應用程式具有以下特徵：<br>
+在<strong>join-and-chat</strong>中，使用者登入並輸入暱稱之後會被預設加入「大廳」，並能與其他在同一個房間內的使用者對話。這個應用程式具有以下特徵：<br>
 
 <ol>
 
