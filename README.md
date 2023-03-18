@@ -35,6 +35,6 @@
 MIT license.<br><br>
 
 ## Information
-Author: &nbsp;GW19 &nbsp;<br>
+Author： &nbsp;GW19 &nbsp;<br>
 如果您認為程式碼有任何需要改進的地方拜託告訴我，我會非常感謝您！ <br><br>
 
